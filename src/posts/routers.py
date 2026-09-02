@@ -5,15 +5,15 @@ from posts.shemas import PostCreate, PostRead
 from posts.models import Post
 
 router = APIRouter(
-    prefix = '/api',
-    tags = ['API'] #группировка обработчиков в документации
+    prefix = '/posts',
+    tags = ['Posts']
 )
 
-@router.get('/posts', response_model = list[PostRead])
+@router.get('/', response_model = list[PostRead])
 async def list_posts(db: Session = Depends(get_db)):
     return db.query(Post).all()
 
-@router.post('/posts', response_model = PostRead)
+@router.post('/', response_model = PostRead)
 async def create_post(post_data: PostCreate, db: Session = Depends(get_db)):
     post = Post(
         title = post_data.title,
@@ -34,4 +34,3 @@ async def delete_post(post_id: int, db: Session = Depends(get_db)):
     if post:
         db.delete(post)
         db.commit()
-    return post

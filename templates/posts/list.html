@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Посты{% endblock %}
+{% block links %}{% endblock %}
+
+{% block content %}
+<div class="posts">
+    {% for post in posts %}
+        <article class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+        </article>
+
+    {% else %}
+        <p>Постов нет.</p>    
+    {% endfor %}
+</div>
+{% endblock %}

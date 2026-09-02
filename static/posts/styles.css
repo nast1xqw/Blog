@@ -1,0 +1,221 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    "Segoe UI",
+    Roboto,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background: #f5f5f0;
+  color: #2c2c2c;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-bottom: 4px solid #f39c12;
+}
+
+header a {
+  color: #f1c40f;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
+}
+
+header a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+}
+
+main {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.posts .post {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem 2rem;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
+  border-left: 6px solid #f39c12;
+}
+
+.posts .post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+}
+
+.posts .post h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #1e1e1e;
+}
+
+.posts .post h2 a {
+  color: #1e1e1e;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.posts .post h2 a:hover {
+  color: #f39c12;
+  text-decoration: underline;
+}
+
+.posts .post p {
+  color: #444;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.post-detail {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+  border-top: 6px solid #f39c12;
+}
+
+.post-detail h1 {
+  font-size: 2.6rem;
+  color: #1e1e1e;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+}
+
+.post-detail p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-wrap;
+}
+
+.post-detail a,
+.create-form a {
+  display: inline-block;
+  margin-top: 2rem;
+  background: #f39c12;
+  color: #1e1e1e;
+  padding: 0.6rem 1.8rem;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  transition:
+    background 0.25s,
+    transform 0.15s;
+  border: none;
+  cursor: pointer;
+}
+
+.post-detail a:hover,
+.create-form a:hover {
+  background: #e67e22;
+  transform: scale(1.02);
+  color: #fff;
+}
+
+.create-form {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+  border-top: 6px solid #f39c12;
+}
+
+.create-form h1 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #1e1e1e;
+}
+
+.create-form label {
+  display: block;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.3rem;
+  color: #2c2c2c;
+}
+
+.create-form input,
+.create-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #fafaf8;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.create-form input:focus,
+.create-form textarea:focus {
+  border-color: #f39c12;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.15);
+}
+
+.create-form button {
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: #1e1e1e;
+  border: none;
+  padding: 0.9rem 2.8rem;
+  border-radius: 40px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+}
+
+.create-form button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(243, 156, 18, 0.5);
+}
+
+.create-form button:active {
+  transform: scale(0.97);
+}
+
+.back-link {
+  margin-top: 1.5rem;
+  display: inline-block;
+}
+
+.posts p:last-child {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  padding: 3rem 0;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}

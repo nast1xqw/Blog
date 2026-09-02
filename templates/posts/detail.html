@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title if post else 'Пост не найден' }}{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    {% if post %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+        <p><a href="{{ url_for('list_posts_page') }}">← Назад к списку</a></p>
+    {% else %}
+        <p>Пост с таким ID не найден.</p>
+        <p><a href="{{ url_for('list_posts_page') }}">← Назад к списку</a></p>
+    {% endif %}
+</div>
+{% endblock %}
