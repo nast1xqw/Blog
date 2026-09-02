@@ -1,13 +1,12 @@
-from fastapi import APIRouter, Depends, Request
 from pathlib import Path
 from fastapi.templating import Jinja2Templates
 from posts.models import Post
 from sqlalchemy.orm import Session
 from database import get_db
-from fastapi import Request, Form
 from fastapi.responses import RedirectResponse
 from posts.models import Post
 from posts.shemas import PostCreate
+from fastapi import APIRouter, Depends, Request, Form, HTTPException
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 TEMPLATES_DIR = BASE_DIR / 'templates'
@@ -53,3 +52,32 @@ async def get_post_page(request: Request, post_id: int, db: Session = Depends(ge
         name='posts/detail.html',
         context={'post': post}
     )
+
+@router.get('/{post_id}/update')
+async def update_post_page(request: Request, post_id: int, db: Session = Depends(get_db)):
+    post = db.get(Post, post_id)
+    if post is None:
+        raise HTTPException(status_code=404, detail="Пост не найден")
+    return templates.TemplateResponse(
+        request=request,
+        name='posts/update.html',
+        context={'post': post}
+    )
+
+@router.post('/{post_id}/update')
+async def update_post_submit(
+    request: Request,
+    post_id: int,
+    title: str = Form(...),
+    content: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    post = db.get(Post, post_id)
+    if post is None:
+        raise HTTPException(status_code=404, detail="Пост не найден")
+    post.title = title
+    post.content = content
+    db.commit()
+    db.refresh(post)
+    
+    return RedirectResponse(url=f'/posts/{post_id}', status_code=303)

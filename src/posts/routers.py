@@ -5,7 +5,7 @@ from posts.shemas import PostCreate, PostRead
 from posts.models import Post
 
 router = APIRouter(
-    prefix = '/posts',
+    prefix = '/api',
     tags = ['Posts']
 )
 
@@ -34,3 +34,13 @@ async def delete_post(post_id: int, db: Session = Depends(get_db)):
     if post:
         db.delete(post)
         db.commit()
+
+@router.put('/{post_id}', response_model=PostRead)
+async def update_post(post_id: int, post_data: PostCreate, db: Session = Depends(get_db)):
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post:
+        post.title = post_data.title
+        post.content = post_data.content
+        db.commit()
+        db.refresh(post)
+    return post
