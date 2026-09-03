@@ -7,10 +7,13 @@
     {% if post %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.content }}</p>
-        <p><a href="{{ url_for('list_posts_page') }}">← Назад к списку</a></p>
+        
+        <a href="/posts/{{ post.id }}/update">Редактировать</a>
+        
+        <a href="{{ url_for('list_posts_page') }}">← Назад к списку</a>
     {% else %}
         <p>Пост с таким ID не найден.</p>
-        <p><a href="{{ url_for('list_posts_page') }}">← Назад к списку</a></p>
+        <a href="{{ url_for('list_posts_page') }}">← Назад к списку</a>
     {% endif %}
 </div>
 {% endblock %}

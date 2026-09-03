@@ -27,8 +27,7 @@ async def list_posts_page(request: Request, db: Session = Depends(get_db)):
 async def create_post_page(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name='posts/create.html',
-        context={}
+        name='posts/create.html'
     )
 
 @router.post('/create')
