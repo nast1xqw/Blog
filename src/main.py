@@ -6,6 +6,7 @@ from pathlib import Path
 from posts.routers import router as posts_api_router
 from posts.views import router as posts_page_router   
 from database import Base, engine
+from users.routers import router as users_api_router
 
 BASE_DIR = Path(__file__).resolve().parents[1]       
 STATIC_DIR = BASE_DIR / 'static'                      
@@ -16,6 +17,7 @@ app = FastAPI(title='Blog')
 
 app.include_router(posts_api_router)
 app.include_router(posts_page_router)
+app.include_router(users_api_router)
 
 app.mount('/static', StaticFiles(directory=str(STATIC_DIR)), name='static')
 
