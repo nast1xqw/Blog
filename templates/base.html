@@ -1,20 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Блог{% endblock %}</title>
 
     {% block links %}{% endblock %}
-    <link rel="stylesheet" href="{{ url_for('static', path='/posts/styles.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='/posts/styles.css') }}"
+    />
+  </head>
+  <body>
     <header>
-        <a href="{{ url_for('list_posts_page') }}">Блог</a>
+      <a href="{{ url_for('list_posts_page') }}" class="logo">Блог</a>
+
+      <nav class="header-nav">
+        {% if request.cookies.get('access_token') %}
+          <a href="/posts/create">Создать пост</a>
+          <a href="{{ url_for('profile_page') }}">Мой профиль</a>
+          <a href="/logout">Выйти</a>
+        {% else %}
+          <a href="{{ url_for('login_page') }}">Войти</a>
+          <a href="{{ url_for('register_page') }}">Регистрация</a>
+        {% endif %}
+      </nav>
     </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
-</html>       
+
+    <main>{% block content %}{% endblock %}</main>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

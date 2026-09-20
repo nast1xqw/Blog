@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    <h1>Профиль</h1>
+
+    <div id="profile-card" class="profile-card">
+        <div class="profile-row">
+            <span class="label">ID</span>
+            <span class="value" id="user-id">—</span>
+        </div>
+        <div class="profile-row">
+            <span class="label">Логин</span>
+            <span class="value" id="user-name">—</span>
+        </div>
+    </div>
+
+    <p id="error" class="form-message error" hidden></p>
+
+    <a href="{{ url_for('list_posts_page') }}" class="btn"><- К постам</a>
+</div>
+
+<script>
+(async () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) return window.location.href = "{{ url_for('login_page') }}";
+
+    const resp = await fetch("/api/users/profile", {
+        headers: { "Authorization": "Bearer " + token },
+    });
+
+    if (resp.status === 401) {
+        localStorage.removeItem("access_token");
+        return window.location.href = "{{ url_for('login_page') }}";
+    }
+
+    if (!resp.ok) {
+        const errEl = document.getElementById("error");
+        errEl.textContent = "Не удалось загрузить профиль";
+        errEl.hidden = false;
+        return;
+    }
+
+    const user = await resp.json();
+    document.getElementById("user-id").textContent = user.id;
+    document.getElementById("user-name").textContent = user.username;
+})();
+function logout() {
+    localStorage.removeItem("access_token");
+    window.location.href = "{{ url_for('login_page') }}";
+}
+
+</script>
+{% endblock %}

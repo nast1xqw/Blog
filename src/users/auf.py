@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import jwt
-from fastapi import HTTPException, status, Depends
+from fastapi import HTTPException, status, Depends, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from pwdlib import PasswordHash
@@ -15,17 +15,17 @@ SECRET_KEY = os.getenv("SECRET_KEY", "def-secret-key-change-me-32-bytes-min")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-password_hashe = PasswordHash.recommended()
+password_hash = PasswordHash.recommended()
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="api/users/login",
+    tokenUrl="/api/users/login",
 )
 
 def hash_password(password: str):
-    return password_hashe.hash(password)
+    return password_hash.hash(password)
 
 def verify_password(password: str, hashed_password: str):
-    return password_hashe.verify(password, hashed_password)  
+    return password_hash.verify(password, hashed_password)  
 
 def create_access_token(username:str):
     payload = {
@@ -42,9 +42,20 @@ def create_access_token(username:str):
     )
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    request: Request,
     db: Session = Depends(get_db)
 ):
+    token = request.cookies.get("access_token")
+
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
+
+    if token.startswith("Bearer "):
+        token = token.split(" ")[1]
+
     try:
         payload = jwt.decode(
             token,
@@ -62,14 +73,13 @@ def get_current_user(
             status_code=401,
             detail="Token expired",
         )
-    
     except jwt.InvalidTokenError:
         raise HTTPException(
             status_code=401,
             detail="Invalid token",
         )
 
-    user =  db.query(User).filter(User.username==username,).first()
+    user = db.query(User).filter(User.username == username).first()
 
     if user is None:
         raise HTTPException(

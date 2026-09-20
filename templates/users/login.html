@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="create-form">
+    <h1>Вход</h1>
+    <form id="login-form">
+        <label>Логин
+            <input type="text" name="username" required autocomplete="username" placeholder="Ваш логин">
+        </label>
+        <label>Пароль
+            <input type="password" name="password" required autocomplete="current-password" placeholder="Ваш пароль">
+        </label>
+        <button type="submit">Войти</button>
+    </form>
+
+    <p id="error" class="form-message error" hidden></p>
+
+    <p class="auth-footer">
+        Нет аккаунта? <a href="{{ url_for('register_page') }}">Зарегистрироваться</a>
+    </p>
+</div>
+
+<script>
+document.getElementById("login-form").onsubmit = async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById("error");
+    errEl.hidden = true;
+
+    const resp = await fetch("/api/users/login", {
+        method: "POST",
+        body: new URLSearchParams(new FormData(e.target)),
+    });
+
+    if (resp.ok) {
+        const { access_token } = await resp.json();
+        localStorage.setItem("access_token", access_token);
+        window.location.href = "{{ url_for('profile_page') }}";
+    } else {
+        const data = await resp.json().catch(() => ({}));
+        errEl.textContent = data.detail || "Неверный логин или пароль";
+        errEl.hidden = false;
+    }
+};
+</script>
+{% endblock %}

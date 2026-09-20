@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="create-form">
+    <h1>Регистрация</h1>
+    <form id="register-form">
+        <label>Логин
+            <input type="text" name="username" required minlength="3" maxlength="100"
+                   autocomplete="username" placeholder="Минимум 3 символа">
+        </label>
+        <label>Пароль
+            <input type="password" name="password" required minlength="6"
+                   autocomplete="new-password" placeholder="Минимум 6 символов">
+        </label>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <p id="error"   class="form-message error"   hidden></p>
+    <p id="success" class="form-message success" hidden></p>
+
+    <p class="auth-footer">
+        Уже есть аккаунт? <a href="{{ url_for('login_page') }}">Войти</a>
+    </p>
+</div>
+
+<script>
+document.getElementById("register-form").onsubmit = async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById("error");
+    const okEl  = document.getElementById("success");
+    errEl.hidden = okEl.hidden = true;
+
+    const resp = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
+    });
+
+    if (resp.ok) {
+        okEl.textContent = "Готово! Перенаправляем на вход...";
+        okEl.hidden = false;
+        setTimeout(() => window.location.href = "{{ url_for('login_page') }}", 800);
+    } else {
+        const data = await resp.json().catch(() => ({}));
+        errEl.textContent = data.detail || "Ошибка регистрации";
+        errEl.hidden = false;
+    }
+};
+</script>
+{% endblock %}

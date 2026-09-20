@@ -39,6 +39,37 @@ header a:hover {
   text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
 }
 
+.header-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.header-nav a,
+.header-nav button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: none;
+}
+
+.header-nav button.btn-logout {
+  background: transparent;
+  border: 1px solid #f39c12;
+  color: #f39c12;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.header-nav button.btn-logout:hover {
+  background: #f39c12;
+  color: #1e1e1e;
+}
+
 main {
   max-width: 900px;
   margin: 2.5rem auto;
@@ -92,52 +123,7 @@ main {
   line-height: 1.7;
 }
 
-.post-detail {
-  background: white;
-  border-radius: 20px;
-  padding: 2.5rem 3rem;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
-  border-top: 6px solid #f39c12;
-}
-
-.post-detail h1 {
-  font-size: 2.6rem;
-  color: #1e1e1e;
-  margin-bottom: 1.2rem;
-  font-weight: 700;
-}
-
-.post-detail p {
-  font-size: 1.15rem;
-  line-height: 1.8;
-  color: #333;
-  white-space: pre-wrap;
-}
-
-.post-detail a,
-.create-form a {
-  display: inline-block;
-  margin-top: 2rem;
-  background: #f39c12;
-  color: #1e1e1e;
-  padding: 0.6rem 1.8rem;
-  border-radius: 40px;
-  text-decoration: none;
-  font-weight: 600;
-  transition:
-    background 0.25s,
-    transform 0.15s;
-  border: none;
-  cursor: pointer;
-}
-
-.post-detail a:hover,
-.create-form a:hover {
-  background: #e67e22;
-  transform: scale(1.02);
-  color: #fff;
-}
-
+.post-detail,
 .create-form {
   background: white;
   border-radius: 20px;
@@ -146,16 +132,18 @@ main {
   border-top: 6px solid #f39c12;
 }
 
+.post-detail h1,
 .create-form h1 {
-  font-size: 2.2rem;
-  margin-bottom: 2rem;
+  font-size: 2.4rem;
   color: #1e1e1e;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .create-form label {
   display: block;
   font-weight: 600;
-  margin-top: 1.5rem;
+  margin-top: 1.2rem;
   margin-bottom: 0.3rem;
   color: #2c2c2c;
 }
@@ -181,13 +169,14 @@ main {
 }
 
 .create-form button {
+  width: 100%;
   margin-top: 2rem;
   background: linear-gradient(135deg, #f39c12, #e67e22);
   color: #1e1e1e;
   border: none;
   padding: 0.9rem 2.8rem;
   border-radius: 40px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -197,56 +186,104 @@ main {
 }
 
 .create-form button:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
   box-shadow: 0 6px 16px rgba(243, 156, 18, 0.5);
 }
 
-.create-form button:active {
-  transform: scale(0.97);
-}
-
-.back-link {
-  margin-top: 1.5rem;
-  display: inline-block;
-}
-
-.posts p:last-child {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #888;
-  padding: 3rem 0;
-  background: white;
+.profile-card {
+  background: #fafaf8;
+  border: 2px solid #eee;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-.header-nav {
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-.header-nav a,
-.header-nav button {
-  font-size: 1rem;
+.profile-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.profile-row .label {
   font-weight: 600;
-  color: #fff;
-  text-shadow: none;
+  color: #777;
+  font-size: 1rem;
 }
 
-.header-nav button.btn-logout {
-  background: transparent;
-  border: 1px solid #f39c12;
-  color: #f39c12;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.header-nav button.btn-logout:hover {
-  background: #f39c12;
+.profile-row .value {
+  font-weight: 700;
   color: #1e1e1e;
+  font-size: 1.1rem;
+}
+
+.form-message {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.form-message.error {
+  background: #fde8e8;
+  color: #c0392b;
+  border: 1px solid #f8b4b4;
+}
+
+.form-message.success {
+  background: #eafaf1;
+  color: #27ae60;
+  border: 1px solid #a3e4d7;
+}
+
+.auth-footer {
+  margin-top: 1.8rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.auth-footer a {
+  color: #e67e22;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+
+.auth-footer a:hover {
+  color: #d35400;
+  background: none;
+  text-decoration: underline;
+  transform: none;
+}
+
+.btn-secondary {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+}
+
+.btn-secondary:hover {
+  background: #c0392b;
+  transform: scale(1.02);
 }

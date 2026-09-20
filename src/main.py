@@ -7,8 +7,9 @@ from posts.routers import router as posts_api_router
 from posts.views import router as posts_page_router   
 from database import Base, engine
 from users.routers import router as users_api_router
+from users.views import router as users_page_router
 
-BASE_DIR = Path(__file__).resolve().parents[1]       
+BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / 'static'                      
 
 Base.metadata.create_all(bind=engine)
@@ -18,6 +19,7 @@ app = FastAPI(title='Blog')
 app.include_router(posts_api_router)
 app.include_router(posts_page_router)
 app.include_router(users_api_router)
+app.include_router(users_page_router)
 
 app.mount('/static', StaticFiles(directory=str(STATIC_DIR)), name='static')
 

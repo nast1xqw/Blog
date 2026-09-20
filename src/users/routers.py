@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -24,8 +24,8 @@ router = APIRouter(
 @router.post(
     path="/register",
     response_model=UserRead,
+    status_code=status.HTTP_201_CREATED,
 )
-
 async def register(
     user: UserCreate,
     db: Session = Depends(get_db),
@@ -34,7 +34,7 @@ async def register(
 
     if existing_user:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username already exists",
         )
     
@@ -53,30 +53,27 @@ async def register(
     path="/login",
     response_model=Token,
 )
-
 async def login(
+    response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
     db_user = db.query(User).filter(User.username == form_data.username).first()
 
-    if not db_user:
+    if not db_user or not verify_password(form_data.password, db_user.password):
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid username or password",
-        )
-
-    if not verify_password(
-        form_data.password,
-        db_user.password,
-    ):
-        raise HTTPException(
-            status_code=401,
-            detail='Invalid username or password',
+            headers={"WWW-Authenticate": "Bearer"},
         )
 
     token = create_access_token(db_user.username)
 
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {token}",
+        httponly=True
+    )
     return {
         'access_token': token,
         'token_type': 'bearer',
