@@ -7,8 +7,7 @@ build:
   requirementsPath: requirements.txt
   useCache: true
 run:
-  scriptName: src/main.py
-  command: null
+  command: uvicorn src.main:app --host 0.0.0.0 --port 80
   persistenceMount: /data
   containerPort: "80"
   russianTrustedCa: false
