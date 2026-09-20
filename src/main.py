@@ -10,7 +10,8 @@ from users.routers import router as users_api_router
 from users.views import router as users_page_router
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_DIR = BASE_DIR / 'static'                      
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+templates = Jinja2Templates(directory=BASE_DIR / "templates")                      
 
 Base.metadata.create_all(bind=engine)
 
@@ -21,7 +22,6 @@ app.include_router(posts_page_router)
 app.include_router(users_api_router)
 app.include_router(users_page_router)
 
-app.mount('/static', StaticFiles(directory=str(STATIC_DIR)), name='static')
 
 if __name__ == '__main__':
     uvicorn.run(app='main:app', host='127.0.0.1', port=8080, reload=True)
